@@ -1,13 +1,39 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PoolObject : MonoBehaviour {
+    [HideInInspector]
+    protected float timeToDie;
 
-	public virtual void OnObjectReuse() {
+    /// <summary>
+    /// Disable after a certain time has passed
+    /// </summary>
+    public void Disable()
+    {
+        SetInactive(timeToDie);
+    }
 
-	}
+    /// <summary>
+    /// Set inactive with delay
+    /// </summary>
+    /// <param name="time"></param>
+    void SetInactive(float time)
+    {
+        Invoke("SetInactive", time);
+    }
 
-	protected void Destroy() {
-		gameObject.SetActive (false);
-	}
+    /// <summary>
+    /// set inactive immediately
+    /// </summary>
+    protected void SetInactive()
+    {
+        gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Resue this object
+    /// </summary>
+    /// <param name="args"> pass a data </param>
+    public virtual void OnObjectReuse(object args) {
+        Disable();
+    }
 }
